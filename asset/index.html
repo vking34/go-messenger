@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Socket.IO Chat Example</title>
+    <link rel="stylesheet" href="/public/style.css">
+</head>
+
+<body>
+    <ul class="pages">
+        <li class="chat page">
+            <div class="chatArea">
+                <ul class="messages"></ul>
+            </div>
+            <input class="inputMessage" placeholder="Type here..." />
+            <button id="sendMsgBtn" class="sendMsgBtn">Send</button>
+        </li>
+        <li class="login page">
+            <div class="form">
+                <h3 class="title">What's sender username?</h3>
+                <input id="senderId" class="usernameInput" placeholder="Sender" type="text" maxlength="14" />
+
+                <h3 class="title">What's receiver username?</h3>
+                <input id="receiverId" class="usernameInput" placeholder="Receiver" type="text" maxlength="14" />
+
+                <h3 class="title">What's your role?</h3>
+                <input id="userRole" class="usernameInput" placeholder="Role" type="text" maxlength="14" />
+            </div>
+        </li>
+    </ul>
+
+    <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+    <script src="https://cdn.socket.io/socket.io-1.4.0.js"></script>
+    <script src="/public/main.js"></script>
+</body>
+
+</html>

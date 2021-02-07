@@ -97,11 +97,11 @@ func main() {
 	// 	return last
 	// })
 
-	server.OnError(messengerNs, func(s socketio.Conn, e error) {
+	server.OnError("/", func(s socketio.Conn, e error) {
 		fmt.Println("meet error:", e)
 	})
 
-	server.OnDisconnect(messengerNs, func(s socketio.Conn, reason string) {
+	server.OnDisconnect("/", func(s socketio.Conn, reason string) {
 		fmt.Println("closed", reason)
 	})
 

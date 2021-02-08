@@ -114,7 +114,7 @@ func main() {
 
 	server.OnDisconnect("/", func(s socketio.Conn, reason string) {
 		fmt.Println("closed", reason)
-
+		s.LeaveAll()
 	})
 
 	go server.Serve()

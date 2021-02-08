@@ -3,9 +3,13 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"log"
 	"net/http"
+	"os"
 	"strings"
 	"time"
+
+	"github.com/joho/godotenv"
 
 	"github.com/gin-gonic/gin"
 
@@ -29,12 +33,19 @@ type message struct {
 	CreatedAt string `json:"created_at`
 }
 
+func init() {
+	err := godotenv.Load()
+	if err != nil {
+		log.Fatal("Error loading .env file")
+	}
+}
+
 func main() {
 	router := gin.New()
 
 	server, _ := socketio.NewServer(nil)
 
-	messengerNs := "/v1/conversations/events"
+	messengerNs := os.Getenv("MESSENGER_NS")
 
 	server.OnConnect(messengerNs, func(s socketio.Conn) error {
 		fmt.Println("socket id:", s.ID())
@@ -103,14 +114,16 @@ func main() {
 
 	server.OnDisconnect("/", func(s socketio.Conn, reason string) {
 		fmt.Println("closed", reason)
+
 	})
 
 	go server.Serve()
 	defer server.Close()
 
 	// register
-	router.GET("/v1/conversations/sockets/*any", gin.WrapH(server))
-	router.POST("/v1/conversations/sockets/*any", gin.WrapH(server))
+	socketPath := os.Getenv("SOCKET_PATH") + "/*any"
+	router.GET(socketPath, gin.WrapH(server))
+	router.POST(socketPath, gin.WrapH(server))
 	router.StaticFS("/public", http.Dir("./asset"))
 
 	router.Run()

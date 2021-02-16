@@ -14,7 +14,6 @@ import (
 	"github.com/gin-gonic/gin"
 
 	socketio "github.com/googollee/go-socket.io"
-
 	uuid "github.com/satori/go.uuid"
 )
 
@@ -30,7 +29,7 @@ type message struct {
 	To        string `json:"to"`
 	MsgType   string `json:"type"`
 	Content   string `json:"content"`
-	CreatedAt string `json:"created_at`
+	CreatedAt string `json:"created_at"`
 }
 
 func init() {
@@ -43,7 +42,7 @@ func init() {
 func main() {
 	router := gin.New()
 
-	server, _ := socketio.NewServer(nil)
+	server := socketio.NewServer(nil)
 
 	messengerNs := os.Getenv("MESSENGER_NS")
 
@@ -70,8 +69,7 @@ func main() {
 	})
 
 	server.OnEvent(messengerNs, "new_message", func(s socketio.Conn, msgStr string) {
-		fmt.Println("msg string:", msgStr)
-
+		// fmt.Println("msg string:", msgStr)
 		msg := message{}
 		err := json.Unmarshal([]byte(msgStr), &msg)
 		if err != nil {
@@ -108,7 +106,7 @@ func main() {
 	// 	return last
 	// })
 
-	server.OnError("/", func(s socketio.Conn, e error) {
+	server.OnError(messengerNs, func(s socketio.Conn, e error) {
 		fmt.Println("meet error:", e)
 	})
 

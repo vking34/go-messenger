@@ -9,4 +9,4 @@ require (
 	github.com/satori/go.uuid v1.2.0
 )
 
-replace github.com/googollee/go-socket.io => C:\Users\Admin\Desktop\vuong\go-socket.io
+replace github.com/googollee/go-socket.io => /home/user/Desktop/go-socket/go-socket.io
